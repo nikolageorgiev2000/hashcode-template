@@ -60,11 +60,8 @@ def score(inp, out):
                 node.lights[0] = node.lights[0] % node.E  # fix overflow
             node.lights[1] = node.lights[1] % node.totlen  # fix overflow
 
-        done = []
 
         for c, pos in enumerate(cpos):
-            if(c in done):
-                continue
             curr_street = ns.cars[c][pos[0]]
             if(pos[1] != -1):  # if in queue
                 node = ns.streets[curr_street].e
@@ -81,7 +78,7 @@ def score(inp, out):
                 if(pos[2] == 0):
                     if(pos[0] != len(ns.cars[c])-1):
                         score += 1000 + ns.D-T
-                        done.append(c)
+                        pos[1] = -1
                     else:
                         pos[1] = qmax[curr_street] + 1
                         qmax[curr_street] = qmax[curr_street] + 1
