@@ -62,9 +62,7 @@ def parse(inp):
     # Access with:
     #   ns.nodes[<node-ID>].i -> array of incomming street names
     #   ns.nodes[<node-ID>].o -> array of outgoing street names
-    ns.nodes = []
-    for _ in range(ns.I):
-        ns.nodes.append(argparse.Namespace())
+    ns.nodes = [argparse.Namespace()] * ns.I
     # init
     for inter in ns.nodes:
         inter.i = []
@@ -98,7 +96,7 @@ def get_args():
 if __name__ == '__main__':
     args = get_args()
     if args.inp:
-        file_list = [Path(args.inp)]
+        file_list = [args.inp]
     else:
         file_list = Path('in').glob('*.in')
 
