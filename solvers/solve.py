@@ -43,7 +43,7 @@ def solve(inp, args):
                 t = 1
             else:
                 t = math.ceil(usage*1.0/streetDist * math.min(10, ns.D))
-            t = math.max(t, 0)
+            t = math.max(t, 1)
             streetTimings.append({"name": street, "time": t})
 
         schedule.append({"id": intersection, "streets": streetTimings})
