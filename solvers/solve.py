@@ -37,7 +37,7 @@ def solve(inp, args):
         schedule.append({"id": intersection, "streets": streetTimings})
 
     # Creates output string
-    output = str(len(schedule))
+    output = str(len(schedule)) + "\n"
     for intersection in schedule:
         output += str(intersection["id"]) + "\n"
         output += str(len(intersection["streets"])) + "\n"
