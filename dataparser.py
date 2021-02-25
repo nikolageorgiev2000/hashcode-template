@@ -14,7 +14,56 @@ def nl(itr):
 def parse(inp):
     itr = (line for line in inp.split('\n'))
     ns = argparse.Namespace()
-    # TODO: fill ns
+    # Simduration,  num. intersections,
+    ns.D,           ns.I, \
+    # num. streets, num. cars
+    ns.S,           ns.V, \
+    # bonus points
+    ns.F = nl(itr)
+
+    # Access with:
+    #   ns.sreets[<street-name>].property
+    ns.streets = {}
+
+    for line in range(ns.S):
+        b, e = ni(itr), ni(itr)
+        sname = next(itr) #?
+        l = ni(itr)
+
+        # add it to dic
+        ns.streets[sname] = argparse.Namespace()
+        ns.streets[sname].name = sname  # street name
+        ns.streets[sname].b = b         # start intersec ID
+        ns.streets[sname].e = e         # end   intersec ID
+        ns.streets[sname].l = l         # time to cross
+
+    # Access with:
+    #   ns.cars[<car ID>][i] -> name of ith street car <card ID. passes through
+    ns.cars = []
+    for line in range(ns.V):
+        car_path = []
+        p = ni(itr)
+        # add all street names to a list
+        for _ in range(p):
+            car_path.append(next(itr))
+
+        # add the path to the cars list
+        ns.cars.append(car_path)
+
+    # Access with:
+    #   ns.nodes[<node-ID>].i -> array of incomming street names
+    #   ns.nodes[<node-ID>].o -> array of outgoing street names
+    ns.nodes = [argparse.Namespace()] * ns.I
+    # init
+    for inter in ns.nodes:
+        inter.i = []
+        inter.o = []
+    # assign
+    for street in ns.streets:
+        # start inter -> outgoing
+        ns.nodes[street.b].o.append(street.name)
+        # end inter -> ingoing street
+        ns.nodes[street.e].i.append(street.name)
 
     return ns
 
