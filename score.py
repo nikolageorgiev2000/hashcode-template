@@ -29,6 +29,8 @@ def score(inp, out):
                 [street_info[0], int(street_info[1]), total])
         sout.schd[id].totlen = total
 
+    print("PARSING")
+
     # track current max position in queue on street
     qmax = {sname: 0 for sname in ns.streets.keys()}
 
@@ -46,6 +48,8 @@ def score(inp, out):
     score = 0
 
     for T in range(1, ns.D+1):
+        if(T % 10000 == 0):
+            print(score)
         # update green light for each intersection
         for id in sout.schd.keys():
             node = sout.schd[id]
