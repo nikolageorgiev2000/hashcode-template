@@ -39,7 +39,10 @@ def solve(inp, args):
         for street in node.i:
             usage = streetUsage[street]
 
-            t = math.ceil(usage*1.0/streetDist * 10)
+            if streetDist == 0:
+                t = 1
+            else:
+                t = math.ceil(usage*1.0/streetDist * 10)
             streetTimings.append({"name": street, "time": t})
 
         schedule.append({"id": intersection, "streets": streetTimings})
