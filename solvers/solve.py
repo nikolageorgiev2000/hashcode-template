@@ -1,6 +1,7 @@
 import argparse
 import random
 import sys
+import math
 sys.path.extend(['..', '.'])
 from collections import *
 from dataparser import parse
@@ -17,13 +18,13 @@ def solve(inp, args):
 
     ############## Calculates street usage
     ############## For future use
-    street_usage = {}
+    streetUsage = {}
     for street in ns.streets:
-        street_usage[street] = 0
+        streetUsage[street] = 0
 
     for path in ns.cars:
         for street in path:
-            street_usage[street]+=1
+            streetUsage[street]+=1
     ###############
     ###############
 
@@ -31,8 +32,15 @@ def solve(inp, args):
     for intersection in range(0,ns.I):
         node = ns.nodes[intersection]
         streetTimings = []
+        streetDist = 0
         for street in node.i:
-            streetTimings.append({"name": street, "time": 1})
+            streetDist += streetUsage[street]
+
+        for street in node.i:
+            usage = streetUsage[street]
+
+            t = math.ceil(usage*1.0/streetDist * 10)
+            streetTimings.append({"name": street, "time": t})
 
         schedule.append({"id": intersection, "streets": streetTimings})
 
@@ -43,6 +51,8 @@ def solve(inp, args):
         output += str(len(intersection["streets"])) + "\n"
         for street in intersection["streets"]:
             output += street["name"] + " " + str(street["time"]) + "\n"
+
+    print(output)
 
     return output
 
