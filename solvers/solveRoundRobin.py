@@ -25,32 +25,22 @@ def solve(inp, args):
     for path in ns.cars:
         for street in path:
             streetUsage[street]+=1
-
-    streetThroughput = {}
-    for name in ns.streets:
-        streetThroughput[name] = streetUsage[name]/ns.streets[name].l
     ###############
     ###############
 
     # Creates round robin scheduling
-    n = max(math.floor(ns.D / 150),2)
+    t=min(20, ns.D)
 
     for intersection in range(0,ns.I):
         node = ns.nodes[intersection]
         streetTimings = []
         streetDist = 0
         for street in node.i:
-            streetDist += streetThroughput[street]
+            streetDist += streetUsage[street]
 
         for street in node.i:
-            usage = streetThroughput[street]
-
-            if streetDist == 0:
-                t = 1
-            else:
-                t = math.ceil(usage*1.0/streetDist * min(n, ns.D))
-            t = max(t, 1)
-            streetTimings.append({"name": street, "time": t, "length": ns.streets[street].l})
+            usage = streetUsage[street]
+            streetTimings.append({"name": street, "time": t})
 
         schedule.append({"id": intersection, "streets": streetTimings})
 
@@ -59,7 +49,7 @@ def solve(inp, args):
     for intersection in schedule:
         output += str(intersection["id"]) + "\n"
         output += str(len(intersection["streets"])) + "\n"
-        for street in sorted(intersection["streets"], key=lambda k: k['length']):
+        for street in intersection["streets"]:
             output += street["name"] + " " + str(street["time"]) + "\n"
 
     return output
