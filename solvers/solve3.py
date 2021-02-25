@@ -119,7 +119,7 @@ def solve(inp, args):
             usage = avgs[street]
 
             if streetDist > 0 and usage > 0:
-                t2 = math.ceil(usage*1.0/streetDist * 7.0)
+                t2 = math.ceil(usage*1.0/streetDist * 8.0)
                 streetTimings.append({"name": street, "time": t2})
 
         if len(streetTimings) > 0:
