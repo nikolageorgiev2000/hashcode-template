@@ -19,12 +19,19 @@ def solve(inp, args):
     ############## Calculates street usage
     ############## For future use
     streetUsage = {}
+    carsAtStart = {}
     for street in ns.streets:
         streetUsage[street] = 0
+        carsAtStart[street] = 0
 
     for path in ns.cars:
+        carsAtStart[path[0]]+=1
         for street in path:
             streetUsage[street]+=1
+
+    streetThroughput = {}
+    for name in ns.streets:
+        streetThroughput[name] = streetUsage[name]/ns.streets[name].l
     ###############
     ###############
 
@@ -32,29 +39,34 @@ def solve(inp, args):
     for intersection in range(0,ns.I):
         node = ns.nodes[intersection]
         streetTimings = []
-        streetDist = 0
-        for street in node.i:
-            streetDist += streetUsage[street]
+        tTotal = 0
+        for street in sorted(node.i, key=lambda k: ns.streets[k].l):
+            if carsAtStart[street]>0:
+                t = min(ns.streets[street].l-tTotal,0)+carsAtStart[street]
+                tTotal += t
 
-        for street in node.i:
-            usage = streetUsage[street]
+                if (t<1):
+                    a=1/0
+                if (t>676):
+                    a=1/0
 
-            if streetDist == 0:
-                t = 1
-            else:
-                t = math.ceil(usage*1.0/streetDist * min(10, ns.D))
-            t = max(t, 1)
-            streetTimings.append({"name": street, "time": t})
+                if tTotal<ns.D:
+                    streetTimings.append({"name": street, "time": t, "length": ns.streets[street].l})
+                else:
+                    if t-(tTotal-ns.D)>0:
+                        streetTimings.append({"name": street, "time": t-(tTotal-ns.D), "length": ns.streets[k].l})
+
 
         schedule.append({"id": intersection, "streets": streetTimings})
 
     # Creates output string
     output = str(len(schedule)) + "\n"
     for intersection in schedule:
-        output += str(intersection["id"]) + "\n"
-        output += str(len(intersection["streets"])) + "\n"
-        for street in intersection["streets"]:
-            output += street["name"] + " " + str(street["time"]) + "\n"
+        if len(intersection["streets"])>0:
+            output += str(intersection["id"]) + "\n"
+            output += str(len(intersection["streets"])) + "\n"
+            for street in sorted(intersection["streets"], key=lambda k: k['length']):
+                output += street["name"] + " " + str(street["time"]) + "\n"
 
     return output
 
