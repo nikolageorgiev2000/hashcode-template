@@ -52,8 +52,6 @@ def solve(inp, args):
         for street in intersection["streets"]:
             output += street["name"] + " " + str(street["time"]) + "\n"
 
-    print(output)
-
     return output
 
 if __name__ == '__main__':
