@@ -24,12 +24,12 @@ def score(inp, out):
             sout.schedules[id].intimes.append((street_info[0], int(street_info[1])))
     print(sout.schedules)
 
-    total = 0
-    cpos = {}
-    for c in ns.cars:
-        cpos[c[0]] = 0
-        while 
-    for T in range(ns.D+1):
+    # total = 0
+    # cpos = {}
+    # for c in ns.cars:
+    #     cpos[c[0]] = 0
+    #     while 
+    # for T in range(ns.D+1):
 
 
 
